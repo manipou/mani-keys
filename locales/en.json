@@ -1,0 +1,25 @@
+{
+    "Notify": {
+        "Locked": "You locked your vehicle",
+        "Unlocked": "You unlocked your vehicle",
+        "NoKey": "You don't have keys to this vehicle",
+        "NotOwner": "You don't own this vehicle",
+        "KeysRecieved": "You received keys to: %s",
+        "KeysGiven": "You gave keys to: %s",
+        "KeysRemoved": "You lost keys from: %s",
+        "KeysTaken": "You took keys from: %s"
+    },
+    "Keybinds": {
+        "KeyName": "LockUnlock",
+        "KeyDesc": "Lock / Unlock your vehicle",
+        "EngineName": "ToggleEngine",
+        "EngineDesc": "Turn engine on / off"
+    },
+    "Commands": {
+        "GiveKeys": "Give keys",
+        "RemoveKeys": "Take keys"
+    },
+    "Target": {
+        "GiveKeys": "Give keys"
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "Notify": {
+        "Locked": "Du låste dit køretøj",
+        "Unlocked": "Du låste dit køretøj op",
+        "NoKey": "Du har ikke nøgler til dette køretøj",
+        "NotOwner": "Du ejer ikke dette køretøj",
+        "KeysRecieved": "Du har modtaget nøgler til: %s",
+        "KeysGiven": "Du har givet nøgler til: %s",
+        "KeysRemoved": "Du har mistet nøgler fra: %s",
+        "KeysTaken": "Du har taget nøgler fra: %s"
+    },
+    "Keybinds": {
+        "KeyName": "LockUnlock",
+        "KeyDesc": "Lås / Lås op for dit køretøj",
+        "EngineName": "ToggleEngine",
+        "EngineDesc": "Tænd / Sluk motor"
+    },
+    "Commands": {
+        "GiveKeys": "Giv nøgler",
+        "RemoveKeys": "Tag nøgler"
+    },
+    "Target": {
+        "GiveKeys": "Giv nøgler"
+    }
+}
