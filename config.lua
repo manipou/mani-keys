@@ -28,7 +28,7 @@ Config.NPCVehicles = { -- Requires baseevents
     ['Lockpick'] = {
         ['Item'] = 'lockpick',
         ['BreakChance'] = 50
-    },
+    }
 }
 
 Config.Framework = 'esx' -- esx, qb, qbx
