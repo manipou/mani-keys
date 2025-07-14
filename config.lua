@@ -22,6 +22,15 @@ Config.States = {
     ['Unlocked'] = 1
 }
 
+Config.NPCVehicles = { -- Requires baseevents
+    ['LockedChance'] = 80,
+    ['StealArmed'] = true,
+    ['Lockpick'] = {
+        ['Item'] = 'lockpick',
+        ['BreakChance'] = 50
+    },
+}
+
 Config.Framework = 'esx' -- esx, qb, qbx
 
 return Config

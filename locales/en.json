@@ -7,7 +7,9 @@
         "KeysRecieved": "You received keys to: %s",
         "KeysGiven": "You gave keys to: %s",
         "KeysRemoved": "You lost keys from: %s",
-        "KeysTaken": "You took keys from: %s"
+        "KeysTaken": "You took keys from: %s",
+        "LockpickSuccess": "You lockpicked the vehicle",
+        "LockpickFailed": "You failed"
     },
     "Keybinds": {
         "KeyName": "LockUnlock",
@@ -20,6 +22,7 @@
         "RemoveKeys": "Take keys"
     },
     "Target": {
-        "GiveKeys": "Give keys"
+        "GiveKeys": "Give keys",
+        "Lockpick": "Lockpick vehicle"
     }
 }

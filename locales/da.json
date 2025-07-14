@@ -7,7 +7,9 @@
         "KeysRecieved": "Du har modtaget nøgler til: %s",
         "KeysGiven": "Du har givet nøgler til: %s",
         "KeysRemoved": "Du har mistet nøgler fra: %s",
-        "KeysTaken": "Du har taget nøgler fra: %s"
+        "KeysTaken": "Du har taget nøgler fra: %s",
+        "LockpickSuccess": "Du låste køretøjet op",
+        "LockpickFailed": "Du fejlede"
     },
     "Keybinds": {
         "KeyName": "LockUnlock",
@@ -20,6 +22,7 @@
         "RemoveKeys": "Tag nøgler"
     },
     "Target": {
-        "GiveKeys": "Giv nøgler"
+        "GiveKeys": "Giv nøgler",
+        "Lockpick": "Lockpick køretøj"
     }
 }

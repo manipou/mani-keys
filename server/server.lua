@@ -55,7 +55,7 @@ lib.callback.register('mani-keys:server:GiveKeyServerId', function(src, netId, t
 
     state:set('keyHolders', json.encode(keyHolders), true)
 
-    TriggerClientEvent('mani-bridge:notify', target, (Locale('Notify.KeysRecieved'):format(GetVehicleNumberPlateText(vehicle))), nil, 'success')
+    TriggerClientEvent('mani-bridge:notify', target, (locale('Notify.KeysRecieved'):format(GetVehicleNumberPlateText(vehicle))), nil, 'success')
 
     return true
 end)
@@ -95,7 +95,7 @@ lib.callback.register('mani-keys:server:RemoveKeyServerId', function(src, netId,
 
     state:set('keyHolders', json.encode(keyHolders), true)
 
-    TriggerClientEvent('mani-bridge:notify', target, (Locale('Notify.KeysRemoved'):format(GetVehicleNumberPlateText(vehicle))), nil, 'error')
+    TriggerClientEvent('mani-bridge:notify', target, (locale('Notify.KeysRemoved'):format(GetVehicleNumberPlateText(vehicle))), nil, 'error')
     return true
 end)
 
@@ -108,4 +108,10 @@ lib.callback.register('mani-keys:server:SetJobKey', function(src, netId, job)
     local state = Entity(vehicle).state
     state:set('JobKey', job, true)
     return true
+end)
+
+RegisterNetEvent('mani-keys:server:breakLockpick', function()
+    local src = source
+
+    exports['mani-bridge']:RemoveItem(src, Config.NPCVehicles['Lockpick']['Item'], 1)
 end)
