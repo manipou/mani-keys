@@ -1,5 +1,6 @@
 {
     "Notify": {
+        "GenericError": "Something wen't wrong.",
         "Locked": "You locked your vehicle",
         "Unlocked": "You unlocked your vehicle",
         "NoKey": "You don't have keys to this vehicle",

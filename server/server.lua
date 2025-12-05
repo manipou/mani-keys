@@ -1,117 +1,128 @@
-local Config = lib.load('config')
-local Util = lib.load(('framework.%s-util'):format(Config.Framework))
+local Config, Util = lib.load('config'), lib.load(('framework.%s-util'):format(Config.Framework))
+local NetIds = {}
 
 lib.locale()
 
-lib.callback.register('mani-keys:server:toggleNearestVeh', function(src, netId)
-    local vehicle = NetworkGetEntityFromNetworkId(netId)
-    while not vehicle do Wait(50) end
+---@param Identifier string
+---@param NetId number
+---@param IsOwner boolean
+local function GiveKey(Identifier, NetId, IsOwner)
+    NetIds[NetId] = NetIds[NetId] or { KeyHolders = {}, JobKey = '' }
 
-    local playerData = Util.GetPlayerData(src)
-    local playerJob = playerData.Job
-    local state = Entity(vehicle).state
-    local keyHolders = json.decode(state.keyHolders) or {}
+    NetIds[NetId]['KeyHolders'][Identifier] = { ['Owner'] = IsOwner }
+end
 
-    if (not keyHolders or not keyHolders[playerData.Identifier]) and not (state.JobKey and state.JobKey == playerJob) then return false, locale('Notify.NoKey') end
+---@param PlayerData table
+---@param NetId number
+---@return boolean HasKey
+---@return boolean IsOwner
+local function HasKey(PlayerData, NetId)
+    if not NetIds[NetId] then return false, false end
 
-    local vehLocked = state.vehLocked or false
+    return next(NetIds[NetId]['KeyHolders'][PlayerData.Identifier]) or NetIds[NetId]['JobKey'] == PlayerData.Job.Name, NetIds[NetId]['KeyHolders'][PlayerData.Identifier] and NetIds[NetId]['KeyHolders'][PlayerData.Identifier]['Owner'] or false
+end
 
-    state:set('vehLocked', not vehLocked, true)
+---@param Identifier string
+---@param NetId number
+local function RemoveKey(Identifier, NetId)
+    if not NetIds[NetId] then return false end
+    
+    NetIds[NetId]['KeyHolders'][Identifier] = nil
+end
+
+local function SetJobKey(NetId, JobKey)
+    if not NetIds[NetId] then return false end
+
+    NetIds[NetId]['JobKey'] = JobKey
+end
+
+lib.callback.register('mani-keys:server:ToggleNearestVeh', function(Source, NetId)
+    local Vehicle = NetworkGetEntityFromNetworkId(NetId)
+    if not Vehicle then return end
+
+    local PlayerData = exports['mani-bridge']:GetPlayerData(Source)
+    if not PlayerData then return end
+    local State = Entity(Vehicle).state
+
+    local HasKey = HasKey(PlayerData, NetId)
+    if not HasKey then return end
+
+    local vehLocked = State.vehLocked or false
+
+    State:set('vehLocked', not vehLocked, true)
 
     return true, not vehLocked
 end)
 
-lib.callback.register('mani-keys:server:giveKey', function(src, netId, owner)
-    local vehicle = NetworkGetEntityFromNetworkId(netId)
-    while not vehicle do Wait(50) end
-    local state = Entity(vehicle).state
-    local keyHolders = json.decode(state.keyHolders) or {}
+lib.callback.register('mani-keys:server:GiveKey', function(Source, NetId, IsOwner)
+    local PlayerData = exports['mani-bridge']:GetPlayerData(Source)
+    if not PlayerData then return end
 
-    local playerData = Util.GetPlayerData(src)
-
-    keyHolders[playerData.Identifier] = { ['Owner'] = owner }
-
-    state:set('keyHolders', json.encode(keyHolders), true)
+    GiveKey(PlayerData.Identifier, NetId, IsOwner)
 
     return true
 end)
 
-lib.callback.register('mani-keys:server:GiveKeyServerId', function(src, netId, target)
-    local vehicle = NetworkGetEntityFromNetworkId(netId)
-    while not vehicle do Wait(50) end
+lib.callback.register('mani-keys:server:GiveKeyServerId', function(Source, NetId, TargetSource)
+    local PlayerData = exports['mani-bridge']:GetPlayerData(Source)
+    local TargetData = exports['mani-bridge']:GetPlayerData(TargetSource)
+    if not PlayerData or not TargetData then return false, locale('Notify.GenericError') end
 
-    local playerData = Util.GetPlayerData(src)
-    local targetData = Util.GetPlayerData(target)
+    local Identifier = PlayerData.Identifier
+    local TargetIdentifier = TargetData.Identifier
 
-    local targetIdentifier = targetData.Identifier
-    local identifier = playerData.Identifier
+    local HasKey, IsOWner = HasKey(PlayerData, NetId)
+    if not IsOWner then return false, locale('Notify.NotOwner') end
 
-    local state = Entity(vehicle).state
-    local keyHolders = json.decode(state.keyHolders) or {}
+    GiveKey(TargetIdentifier, NetId, false)
 
-    if not keyHolders[identifier] or not keyHolders[identifier]['Owner'] then return false, locale('Notify.NotOwner') end
-
-    keyHolders[targetIdentifier] = { ['Owner'] = false }
-
-    state:set('keyHolders', json.encode(keyHolders), true)
-
-    TriggerClientEvent('mani-bridge:notify', target, (locale('Notify.KeysRecieved'):format(GetVehicleNumberPlateText(vehicle))), nil, 'success')
+    TriggerClientEvent('mani-bridge:notify', TargetSource, (locale('Notify.KeysRecieved'):format(GetVehicleNumberPlateText(vehicle))), nil, 'success')
 
     return true
 end)
 
-lib.callback.register('mani-keys:server:RemoveKey', function(src, netId)
-    local vehicle = NetworkGetEntityFromNetworkId(netId)
-    while not vehicle do Wait(50) end
+lib.callback.register('mani-keys:server:RemoveKey', function(Source, NetId)
+    local PlayerData = exports['mani-bridge']:GetPlayerData(Source)
+    if not PlayerData then return false, locale('Notify.GenericError') end
 
-    local state = Entity(vehicle).state
-    local keyHolders = json.decode(state.keyHolders) or {}
-
-    local playerData = Util.GetPlayerData(src)
-
-    keyHolders[playerData.Identifier] = nil
-
-    state:set('keyHolders', json.encode(keyHolders), true)
+    RemoveKey(PlayerData.Identifier, NetId)
 
     return true
 end)
 
-lib.callback.register('mani-keys:server:RemoveKeyServerId', function(src, netId, target)
-    local vehicle = NetworkGetEntityFromNetworkId(netId)
-    while not vehicle do Wait(50) end
+lib.callback.register('mani-keys:server:RemoveKeyServerId', function(Source, NetId, TargetSource)
+    local PlayerData = exports['mani-bridge']:GetPlayerData(Source)
+    local TargetData = exports['mani-bridge']:GetPlayerData(TargetSource)
+    if not PlayerData or not TargetData then return false, locale('Notify.GenericError') end
 
-    local playerData = Util.GetPlayerData(src)
-    local targetData = Util.GetPlayerData(target)
+    local Identifier = PlayerData.Identifier
+    local TargetIdentifier = TargetData.Identifier
 
-    local targetIdentifier = targetData.Identifier
-    local identifier = playerData.Identifier
+    local HasKey, IsOWner = HasKey(PlayerData, NetId)
+    if not IsOWner then return false, locale('Notify.NotOwner') end
 
-    local state = Entity(vehicle).state
-    local keyHolders = json.decode(state.keyHolders) or {}
-
-    if not keyHolders[identifier] or not keyHolders[identifier]['Owner'] then return false, locale('Notify.NotOwner') end
-
-    keyHolders[targetIdentifier] = nil
-
-    state:set('keyHolders', json.encode(keyHolders), true)
+    RemoveKey(TargetIdentifier, NetId)
 
     TriggerClientEvent('mani-bridge:notify', target, (locale('Notify.KeysRemoved'):format(GetVehicleNumberPlateText(vehicle))), nil, 'error')
+
     return true
 end)
 
-lib.callback.register('mani-keys:server:SetJobKey', function(src, netId, job)
-    local vehicle = NetworkGetEntityFromNetworkId(netId)
-    while not vehicle do Wait(50) end
+lib.callback.register('mani-keys:server:SetJobKey', function(Source, NetId, JobKey)
+    if not JobKey then
+        local PlayerData = exports['mani-bridge']:GetPlayerData(Source)
+        if not PlayerData then return end
+        JobKey = PlayerData.Job.Name
+    end
 
-    if not job then job = Util.GetPlayerData(src).Job end
+    SetJobKey(NetId, JobKey)
 
-    local state = Entity(vehicle).state
-    state:set('JobKey', job, true)
     return true
 end)
 
-RegisterNetEvent('mani-keys:server:breakLockpick', function()
-    local src = source
+RegisterNetEvent('mani-keys:server:BreakLockpick', function() exports['mani-bridge']:RemoveItem(source, Config.NPCVehicles['Lockpick']['Item'], 1) end)
 
-    exports['mani-bridge']:RemoveItem(src, Config.NPCVehicles['Lockpick']['Item'], 1)
-end)
+exports('GiveKey', GiveKey)
+exports('RemoveKey', RemoveKey)
+exports('HasKey', HasKey)
+exports('SetJobKey', SetJobKey)

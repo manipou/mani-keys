@@ -1,5 +1,6 @@
 {
     "Notify": {
+        "GenericError": "Noget gik galt.",
         "Locked": "Du låste dit køretøj",
         "Unlocked": "Du låste dit køretøj op",
         "NoKey": "Du har ikke nøgler til dette køretøj",
