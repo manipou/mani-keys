@@ -1,29 +1,29 @@
 {
     "Notify": {
-        "GenericError": "Noget gik galt.",
-        "Locked": "Du låste dit køretøj",
-        "Unlocked": "Du låste dit køretøj op",
-        "NoKey": "Du har ikke nøgler til dette køretøj",
-        "NotOwner": "Du ejer ikke dette køretøj",
-        "KeysRecieved": "Du har modtaget nøgler til: %s",
-        "KeysGiven": "Du har givet nøgler til: %s",
-        "KeysRemoved": "Du har mistet nøgler fra: %s",
-        "KeysTaken": "Du har taget nøgler fra: %s",
-        "LockpickSuccess": "Du låste køretøjet op",
-        "LockpickFailed": "Du fejlede"
+        "Success": "Succes",
+        "Error": "Fejl",
+        "GenericError": "Noget gik galt",
+        "RecievedKey": "Modtaget nøgler til %s",
+        "KeyRemoved": "Fjernede nøgler fra %s",
+        "VehicleLocked": "Køretøj låst",
+        "VehicleUnlocked": "Køretøj oplåst",
+        "NotPermission": "Du har ikke tilladelse til at gøre dette",
+        "NoKeys": "Du har ikke nøgler til dette køretøj",
+        "Lockpick": "Lockpick",
+        "LockpickSuccess": "Lockpick lykkedes",
+        "LockpickFailed": "Lockpick mislykkedes"
     },
     "Keybinds": {
-        "KeyName": "LockUnlock",
-        "KeyDesc": "Lås / Lås op for dit køretøj",
-        "EngineName": "ToggleEngine",
-        "EngineDesc": "Tænd / Sluk motor"
+        "LockUnlockName": "Lås/Oplås",
+        "LockUnlockDesc": "Lås eller oplås det nærmeste køretøj",
+        "EngineName": "Toggle motor",
+        "EngineDesc": "Toggle nuværende motor til/fra"
     },
     "Commands": {
-        "GiveKeys": "Giv nøgler",
-        "RemoveKeys": "Tag nøgler"
+        "GiveKeys": "Giv nøgler til en spiller",
+        "RemoveKeys": "Fjern nøgler fra en spiller"
     },
     "Target": {
-        "GiveKeys": "Giv nøgler",
-        "Lockpick": "Lockpick køretøj"
+        "Lockpick": "Lockpick"
     }
 }

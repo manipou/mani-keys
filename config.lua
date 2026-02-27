@@ -2,6 +2,8 @@ local Config = {}
 
 Config.Debug = false
 
+Config.Locale = 'en'
+
 Config.Keybinds = {
     ['LockUnlock'] = 'L',
     ['ToggleEngine'] = 'K',
@@ -27,8 +29,9 @@ Config.NPCVehicles = { -- Requires baseevents
     ['StealArmed'] = true,
     ['Lockpick'] = {
         ['Item'] = 'lockpick',
-        ['BreakChance'] = 50
-    }
+        ['BreakChance'] = 50,
+        ['XP'] = 5
+    },
 }
 
 Config.Framework = 'esx' -- esx, qb, qbx

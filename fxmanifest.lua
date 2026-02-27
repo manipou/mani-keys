@@ -1,3 +1,4 @@
+
 fx_version 'cerulean'
 game 'gta5'
 lua54 'yes'
@@ -11,13 +12,9 @@ server_scripts {
 	'server/*.lua',
 }
 
-shared_scripts {
-	'@es_extended/imports.lua',
-	'@ox_lib/init.lua'
-}
+shared_script '@jet-lib/init.lua'
 
 files {
 	'config.lua',
-	'framework/*.lua',
 	'locales/*.json',
 }

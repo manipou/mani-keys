@@ -1,29 +1,29 @@
 {
     "Notify": {
-        "GenericError": "Something wen't wrong.",
-        "Locked": "You locked your vehicle",
-        "Unlocked": "You unlocked your vehicle",
-        "NoKey": "You don't have keys to this vehicle",
-        "NotOwner": "You don't own this vehicle",
-        "KeysRecieved": "You received keys to: %s",
-        "KeysGiven": "You gave keys to: %s",
-        "KeysRemoved": "You lost keys from: %s",
-        "KeysTaken": "You took keys from: %s",
-        "LockpickSuccess": "You lockpicked the vehicle",
-        "LockpickFailed": "You failed"
+        "Success": "Success",
+        "Error": "Error",
+        "GenericError": "Something went wrong",
+        "RecievedKey": "Key recieved for %s",
+        "KeyRemoved": "Key removed for %s",
+        "VehicleLocked": "Vehicle locked",
+        "VehicleUnlocked": "Vehicle unlocked",
+        "NotPermission": "You don't have permission to do this",
+        "NoKeys": "You don't have keys for this vehicle",
+        "Lockpick": "Lockpick",
+        "LockpickSuccess": "Lockpick successful",
+        "LockpickFailed": "Lockpick failed"
     },
     "Keybinds": {
-        "KeyName": "LockUnlock",
-        "KeyDesc": "Lock / Unlock your vehicle",
-        "EngineName": "ToggleEngine",
-        "EngineDesc": "Turn engine on / off"
+        "LockUnlockName": "Lock/Unlock",
+        "LockUnlockDesc": "Lock or unlock the nearest vehicle",
+        "EngineName": "Toggle Engine",
+        "EngineDesc": "Toggle current engine"
     },
     "Commands": {
-        "GiveKeys": "Give keys",
-        "RemoveKeys": "Take keys"
+        "GiveKeys": "Give keys to a player",
+        "RemoveKeys": "Remove keys from a player"
     },
     "Target": {
-        "GiveKeys": "Give keys",
-        "Lockpick": "Lockpick vehicle"
+        "Lockpick": "Lockpick"
     }
 }
