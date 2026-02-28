@@ -168,7 +168,7 @@ RegisterNetEvent('baseevents:enteringVehicle', function(Vehicle)
 end)
 
 CreateThread(function()
-    Jet.AddGlobalVehicleTarget({
+    Jet.Target.AddGlobalVehicleTarget({
         label = Jet.Locale.T('Target.Lockpick'),
         name = 'mani-keys:lockpick',
         icon = 'fa-solid fa-key',
