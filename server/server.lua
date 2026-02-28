@@ -179,3 +179,10 @@ end)
 RegisterNetEvent('mani-keys:server:BreakLockpick', function() Jet.Inventory.RemoveItem(source, Config.NPCVehicles['Lockpick']['Item'], 1) end)
 
 exports('GetKeyholders', function(Plate) return Keyholders[Plate] or {} end)
+
+exports('WipeKeys', function(Plate)
+    Keyholders[Plate] = nil
+    JobKeys[Plate] = nil
+
+    return pcall(function() return MySQL.query('DELETE FROM `mani_persistentkeys` WHERE `plate` = ?', { Plate }) end)
+end)
