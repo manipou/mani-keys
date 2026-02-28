@@ -47,9 +47,9 @@ local function HasKeys(Source, Plate)
     return Keyholders[Plate] and Keyholders[Plate][Identifier] ~= nil
 end
 
----@param Source integer
+---@param Identifier string
 ---@param Data table
-local function GiveKey(Source, Data)
+local function GiveKey(Identifier, Data)
     local Plate = Data.Plate
     local IsOwner = Data.IsOwner or false
     local Persistent = Data.Persistent or false
@@ -57,10 +57,6 @@ local function GiveKey(Source, Data)
     if not Plate then return GenericError end
 
     Keyholders[Plate] = Keyholders[Plate] or {}
-
-    local PlayerData = Util.GetPlayerData(Source)
-    if not PlayerData then return GenericError end
-    local Identifier = PlayerData.Identifier
 
     Keyholders[Plate][Identifier] = { IsOwner = IsOwner, Persistent = Persistent }
 
@@ -71,7 +67,17 @@ local function GiveKey(Source, Data)
     return { Success = true, Message = Jet.Locale.T('Notify.KeyGiven') }
 end
 
-Jet.Callback.Register('mani-keys:server:GiveKey', GiveKey)
+---@param Source integer
+---@param Data table
+local function GiveKeyId(Source, Data)
+    local PlayerData = Util.GetPlayerData(Source)
+    if not PlayerData then return GenericError end
+    local Identifier = PlayerData.Identifier
+
+    return GiveKey(Identifier, Data)
+end
+
+Jet.Callback.Register('mani-keys:server:GiveKey', GiveKeyId)
 Jet.Callback.Register('mani-keys:server:GiveKeyId', function(Source, Data)
     local Plate = Data.Plate
     local Target = Data.Target
@@ -85,9 +91,10 @@ Jet.Callback.Register('mani-keys:server:GiveKeyId', function(Source, Data)
     local Permissions = Keyholders[Plate][PlayerData.Identifier]
     if not Permissions or not Permissions.IsOwner then return { Success = false, Message = Jet.Locale.T('Notify.NotPermission') } end
 
-    return GiveKey(Target, Data)
+    return GiveKeyId(Target, Data)
 end)
-exports('GiveKey', GiveKey)
+exports('GiveKey', GiveKeyId)
+exports('GiveKeyToIdentifier', GiveKey)
 
 ---@param Data table
 local function RemoveKey(Data)
